@@ -16,13 +16,7 @@
         <section class="card p-8 md:p-12">
             <h2 class="text-2xl md:text-3xl font-bold text-slate-800 text-center mb-8">Analysis Complete</h2>
             
-            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
-                <h3 class="text-lg font-bold text-left text-slate-700 mb-3">Message Text</h3>
-                <p class="text-left text-slate-800 whitespace-pre-wrap bg-white p-4 rounded-lg border">{{ details.message_text }}</p>
-            </div>
-
             <div class="space-y-2">
-                <h3 class="text-lg font-bold text-left text-slate-700 mt-6 mb-3">Timestamp Details</h3>
                 <div class="divide-y divide-slate-200 rounded-xl border border-slate-200 overflow-hidden">
                     <div class="flex justify-between items-center p-4 bg-white">
                         <span class="font-semibold text-slate-600">Channel</span>
@@ -40,36 +34,62 @@
                         <span class="font-semibold text-slate-600">Timestamp (UTC)</span>
                         <div class="flex items-center gap-2">
                             <span id="iso-time" class="font-mono text-slate-800">{{ details.iso_timestamp }}</span>
-                            <button onclick="copyToClipboard('iso-time')" title="Copy to clipboard" class="copy-btn">📋</button>
+                            <button onclick="copyToClipboard('iso-time')" title="Copy" class="copy-btn">📋</button>
                         </div>
                     </div>
                     <div class="flex justify-between items-center p-4 bg-white">
                         <span class="font-semibold text-slate-600">Unix Timestamp</span>
                         <div class="flex items-center gap-2">
                            <span id="unix-time" class="font-mono text-slate-800">{{ details.unix_timestamp }}</span>
-                           <button onclick="copyToClipboard('unix-time')" title="Copy to clipboard" class="copy-btn">📋</button>
+                           <button onclick="copyToClipboard('unix-time')" title="Copy" class="copy-btn">📋</button>
                         </div>
                     </div>
                 </div>
             </div>
-             <a href="/" class="block w-full mt-10 bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-all transform hover:scale-105 text-center">Analyze Another</a>
+            <button id="copy-all-btn" class="w-full mt-8 bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-all">Copy All Details</button>
+            <a href="/" class="block w-full text-center mt-4 bg-slate-200 text-slate-800 font-bold py-3 rounded-xl hover:bg-slate-300 transition-all">Find Another Timestamp</a>
         </section>
     </main>
-
-    <footer class="text-center p-4 mt-8">
+    
+    <footer class="text-center p-4 mt-4">
         <p class="text-sm text-slate-500">Developed by Hozaifa</p>
     </footer>
 
     <script>
-        // Clipboard copy function
         function copyToClipboard(elementId) {
             const textToCopy = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(textToCopy).then(() => {
-                alert(`'${textToCopy}' has been copied to the clipboard!`);
+                alert(`'${textToCopy}' copied to clipboard!`);
             }).catch(err => {
-                alert('Failed to copy text.');
+                console.error("Could not copy text: ", err);
+                alert("Failed to copy text.");
             });
         }
+
+        document.getElementById('copy-all-btn').addEventListener('click', () => {
+            const username = document.querySelector('.bg-teal-100').innerText;
+            const msgId = document.querySelector('.font-mono:not(#iso-time):not(#unix-time):not(.bg-teal-100)').innerText;
+            const localTime = document.getElementById('result-local-time').innerText;
+            const isoTime = document.getElementById('iso-time').innerText;
+            const unixTime = document.getElementById('unix-time').innerText;
+            
+            const fullText = `
+Telegram Message Details:
+-------------------------
+Channel: ${username}
+Message ID: ${msgId}
+Local Time: ${localTime}
+Timestamp (UTC): ${isoTime}
+Unix Timestamp: ${unixTime}
+            `.trim();
+            
+            navigator.clipboard.writeText(fullText).then(() => {
+                alert('All details copied to clipboard!');
+            }).catch(err => {
+                console.error("Could not copy text: ", err);
+                alert("Failed to copy all details.");
+            });
+        });
     </script>
 </body>
 </html>

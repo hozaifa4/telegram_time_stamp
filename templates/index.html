@@ -1,0 +1,25 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Timestamp Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Telegram Timestamp Finder</h1>
+        <p>Enter a public channel username and a message ID to get its details.</p>
+        <form action="/get_details" method="post">
+            <label for="public_username">Public Username</label>
+            <input type="text" id="public_username" name="public_username" placeholder="e.g., 'durovs_channel' (without @)" required>
+            
+            <label for="message_id">Message ID</label>
+            <input type="number" id="message_id" name="message_id" placeholder="e.g., 123" required>
+            
+            <button type="submit">Get Message Details</button>
+        </form>
+    </div>
+</body>
+</html>

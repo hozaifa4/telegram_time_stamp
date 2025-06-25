@@ -1,0 +1,48 @@
+<!-- templates/result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Message Details</h1>
+        <div class="result-table">
+            <table>
+                <tr>
+                    <th>Topic</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td>Public Username</td>
+                    <td>@{{ details.chat_username }}</td>
+                </tr>
+                <tr>
+                    <td>Message ID</td>
+                    <td>{{ details.message_id }}</td>
+                </tr>
+                 <tr>
+                    <td>Message Text</td>
+                    <td class="message-text-cell">{{ details.message_text }}</td>
+                </tr>
+                <tr>
+                    <td>Timestamp (ISO UTC)</td>
+                    <td>{{ details.iso_timestamp }}</td>
+                </tr>
+                <tr>
+                    <td>Local Time</td>
+                    <td>{{ details.local_time_str }}</td>
+                </tr>
+                <tr>
+                    <td>Unix Timestamp</td>
+                    <td>{{ details.unix_timestamp }}</td>
+                </tr>
+            </table>
+        </div>
+        <a href="/" class="back-link">Check Another</a>
+    </div>
+</body>
+</html>

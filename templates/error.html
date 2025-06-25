@@ -5,15 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>An Error Occurred</h1>
-        <div class="error-box">
-            <p>{{ error_message }}</p>
-        </div>
-        <a href="/" class="back-link">Try Again</a>
-    </div>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+    <main class="w-full max-w-2xl">
+        <section class="card p-12 text-center">
+             <div class="flex flex-col items-center">
+                <div class="text-5xl mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h2 class="text-2xl font-bold text-red-600 mb-2">An Error Occurred</h2>
+                <p class="text-slate-600 mb-6 max-w-sm">{{ error_message }}</p>
+                <a href="/" class="bg-red-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-red-700 transition-all transform hover:scale-105">Try Again</a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

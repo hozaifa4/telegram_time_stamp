@@ -4,22 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Timestamp Finder</title>
+    <title>Telegram Analyzer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>Telegram Timestamp Finder</h1>
-        <p>Enter a public channel username and a message ID to get its details.</p>
-        <form action="/get_details" method="post">
-            <label for="public_username">Public Username</label>
-            <input type="text" id="public_username" name="public_username" placeholder="e.g., 'durovs_channel' (without @)" required>
-            
-            <label for="message_id">Message ID</label>
-            <input type="number" id="message_id" name="message_id" placeholder="e.g., 123" required>
-            
-            <button type="submit">Get Message Details</button>
-        </form>
-    </div>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <main class="w-full max-w-2xl">
+        <section class="card p-8 md:p-12">
+            <div class="text-center mb-8">
+                <div class="inline-block bg-teal-100 text-teal-700 p-3 rounded-full mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 11c0 3.517-1.009 6.789-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 11a4 4 0 11-8 0c0 1.017.07 2.019.203 3m-2.118 6.844A21.88 21.88 0 0015.171 11a4 4 0 11-8 0" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-800">Telegram Analyzer</h1>
+                <p class="text-slate-500 mt-2">Get the exact timestamp and details for any message in a public channel.</p>
+            </div>
+            <form action="/get_details" method="post" class="space-y-6">
+                <div>
+                    <label for="public_username" class="block text-sm font-semibold text-slate-700 mb-2 text-left">Public Channel Username</label>
+                    <input type="text" id="public_username" name="public_username" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300" placeholder="e.g., 'durovs_channel' (without @)" required>
+                </div>
+                <div>
+                    <label for="message_id" class="block text-sm font-semibold text-slate-700 mb-2 text-left">Message ID</label>
+                    <input type="number" id="message_id" name="message_id" class="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300" placeholder="e.g., 123" required>
+                </div>
+                <button type="submit" class="w-full bg-teal-600 text-white font-bold py-4 rounded-xl hover:bg-teal-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">Analyze Message</button>
+            </form>
+        </section>
+    </main>
+
 </body>
 </html>

@@ -1,27 +1,32 @@
+# app.py
+
 import asyncio
 from flask import Flask, render_template, request
-from telegram_analyzer import get_message_details
+# telegram_analyzer.py থেকে নতুন ফাংশনটি ইম্পোর্ট করা হচ্ছে
+from telegram_analyzer import get_details_from_link
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    """ Renders the main input page. """
+    """ মূল ইনপুট পেজটি দেখানোর জন্য। """
     return render_template('index.html')
 
 @app.route('/get_details', methods=['POST'])
 async def process_form():
-    """ Handles the form submission to get message details. """
-    username = request.form.get('public_username')
-    message_id = request.form.get('message_id')
+    """ ফর্ম থেকে লিঙ্ক নিয়ে ফলাফল দেখানোর জন্য। """
+    # ফর্ম থেকে এখন 'telegram_link' নেওয়া হচ্ছে
+    link = request.form.get('telegram_link')
     
-    result = await get_message_details(username, message_id)
+    # লিঙ্ক থেকে তথ্য আনার জন্য নতুন ফাংশনটি কল করা হচ্ছে
+    result = await get_details_from_link(link)
     
+    # ফলাফল ডিকশনারি হলে result.html, নাহলে error.html দেখানো হচ্ছে
     if isinstance(result, dict):
         return render_template('result.html', details=result)
     else:
         return render_template('error.html', error_message=result)
 
 if __name__ == '__main__':
-    # Remember to install Flask with async support: pip install "Flask[async]"
+    # Flask-কে async সমর্থন সহ ইনস্টল করতে হবে: pip install "Flask[async]"
     app.run(debug=True)

@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+<body class="bg-slate-100 flex flex-col items-center justify-center min-h-screen p-4">
     <main class="w-full max-w-2xl">
         <section class="card p-8 md:p-12">
             <h2 class="text-2xl md:text-3xl font-bold text-slate-800 text-center mb-8">Analysis Complete</h2>
@@ -55,6 +55,10 @@
              <a href="/" class="block w-full mt-10 bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-all transform hover:scale-105 text-center">Analyze Another</a>
         </section>
     </main>
+
+    <footer class="text-center p-4 mt-8">
+        <p class="text-sm text-slate-500">Developed by Hozaifa</p>
+    </footer>
 
     <script>
         // Clipboard copy function

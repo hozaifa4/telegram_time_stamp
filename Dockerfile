@@ -1,21 +1,23 @@
-# একটি আনুষ্ঠানিক পাইথন ইমেজকে ভিত্তি হিসেবে ব্যবহার করা হচ্ছে
+# Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
-# কন্টেইনারের ভেতরে কাজের জন্য একটি ফোল্ডার তৈরি করা হচ্ছে
+# Set the working directory in the container
 WORKDIR /app
 
-# প্রয়োজনীয় লাইব্রেরির তালিকাটি কন্টেইনারে কপি করা হচ্ছে
+# Copy the requirements file into the container
 COPY requirements.txt .
 
-# requirements.txt ফাইলে থাকা সব লাইব্রেরি ইনস্টল করা হচ্ছে
+# Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# আপনার অ্যাপ্লিকেশনের বাকি সব কোড কন্টেইনারে কপি করা হচ্ছে
+# Copy the rest of the application code into the container
 COPY . .
 
-# কন্টেইনারের ভেতরের ৫০০০ নম্বর পোর্টটি বাইরের জগতের জন্য উন্মুক্ত করা হচ্ছে
+# Make port 5000 available to the world outside this container
 EXPOSE 5000
 
-# gunicorn ব্যবহার করে অ্যাপ্লিকেশনটি চালানোর জন্য কমান্ড দেওয়া হচ্ছে
-# এটি Flask-এর ডিফল্ট সার্ভারের চেয়ে অনেক বেশি শক্তিশালী
+# Define environment variables (optional, can be set in Railway)
+# ENV NAME World
+
+# Run app.py when the container launches using gunicorn
 CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:5000", "app:app"]

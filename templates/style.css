@@ -31,9 +31,17 @@ body {
     transform: translateY(-4px);
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
 }
+/* --- Button Styles --- */
 .telegram-btn {
-    background-color: #24A1DE;
+    background-color: #24A1DE; /* Telegram Blue Color */
+    color: white;
+    font-weight: bold;
+    padding-top: 1rem; /* 16px */
+    padding-bottom: 1rem; /* 16px */
+    border-radius: 0.75rem; /* 12px */
+    transition: all 0.2s ease-in-out;
 }
 .telegram-btn:hover {
-    background-color: #1F8ABE;
+    background-color: #1F8ABE; /* Darker blue on hover */
+    transform: scale(1.02); /* Slight zoom effect */
 }

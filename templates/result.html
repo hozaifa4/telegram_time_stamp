@@ -4,75 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Result</title>
+    <title>Bulk Analysis Result</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body class="bg-slate-100 flex flex-col items-center justify-center min-h-screen p-4">
-    <main class="w-full max-w-2xl">
-        <section class="card p-8 md:p-12">
-            <h2 class="text-2xl md:text-3xl font-bold text-slate-800 text-center mb-8">Analysis Complete</h2>
-            
-            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 mb-6">
-                <h3 class="text-lg font-bold text-left text-slate-700 mb-3">Message Text</h3>
-                <p class="text-left text-slate-800 whitespace-pre-wrap bg-white p-4 rounded-lg border">{{ details.message_text }}</p>
-            </div>
+<body class="flex items-center justify-center min-h-screen p-4">
 
-            <div class="space-y-2">
-                <h3 class="text-lg font-bold text-left text-slate-700 mt-6 mb-3">Timestamp Details</h3>
-                <div class="divide-y divide-slate-200 rounded-xl border border-slate-200 overflow-hidden">
-                    <div class="flex justify-between items-center p-4 bg-white">
-                        <span class="font-semibold text-slate-600">Chat Name</span>
-                        <span class="font-mono text-teal-800 bg-teal-100 px-2 py-1 rounded-md text-sm">{{ details.chat_display_name }}</span>
+    <main id="app-container" class="w-full max-w-3xl">
+        <section class="card p-8 md:p-12">
+            <div class="text-center border-b border-slate-200 pb-6 mb-6">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Analysis Summary</h2>
+                <p class="text-slate-500 mt-2">
+                    Analyzed <strong>{{ successful_results|length + failed_results|length }}</strong> links: 
+                    <span class="text-green-600 font-semibold">{{ successful_results|length }} successful</span>, 
+                    <span class="text-red-600 font-semibold">{{ failed_results|length }} failed</span>.
+                </p>
+            </div>
+            
+            <div class="space-y-6">
+                <!-- এখানে successful_results তালিকা থেকে প্রতিটি ফলাফল দেখানো হচ্ছে -->
+                {% for result in successful_results %}
+                <div class="result-card bg-white p-5 rounded-xl border border-slate-200">
+                    <div class="flex justify-between items-center mb-3">
+                        <p class="font-mono text-[#1F8ABE] bg-blue-100 px-2 py-1 rounded-md text-sm">{{ result.chat_display_name }}</p>
+                        <p class="font-mono text-slate-500 text-sm">ID: {{ result.message_id }}</p>
                     </div>
-                     <div class="flex justify-between items-center p-4 bg-slate-50">
-                        <span class="font-semibold text-slate-600">Message ID</span>
-                        <span class="font-mono text-slate-800">{{ details.message_id }}</span>
-                    </div>
-                    <div class="flex justify-between items-center p-4 bg-white">
-                        <!-- Label changed -->
-                        <span class="font-semibold text-slate-600">Local Time (with ms)</span>
-                        <span class="font-mono text-slate-800">{{ details.local_time_str }}</span>
-                    </div>
-                    <div class="flex justify-between items-center p-4 bg-slate-50">
-                        <!-- Label changed -->
-                        <span class="font-semibold text-slate-600">Timestamp UTC (with ms)</span>
-                        <div class="flex items-center gap-2">
-                            <span id="iso-time" class="font-mono text-slate-800">{{ details.iso_timestamp }}</span>
-                            <button onclick="copyToClipboard('iso-time')" title="Copy" class="copy-btn">📋</button>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-center p-4 bg-white">
-                        <!-- Label changed -->
-                        <span class="font-semibold text-slate-600">Unix Timestamp (with ms)</span>
-                        <div class="flex items-center gap-2">
-                           <span id="unix-time" class="font-mono text-slate-800">{{ details.unix_timestamp }}</span>
-                           <button onclick="copyToClipboard('unix-time')" title="Copy" class="copy-btn">📋</button>
-                        </div>
+                    <div class="text-left text-sm space-y-2">
+                        <p><strong class="font-semibold text-slate-600">Local Time:</strong> <span class="font-mono">{{ result.local_time_str }}</span></p>
+                        <p><strong class="font-semibold text-slate-600">UTC Time:</strong> <span class="font-mono">{{ result.iso_timestamp }}</span></p>
+                        <p><strong class="font-semibold text-slate-600">Unix:</strong> <span class="font-mono">{{ result.unix_timestamp }}</span></p>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-             <a href="/" class="block w-full mt-10 bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-all transform hover:scale-105 text-center">Analyze Another</a>
-        </section>
-    </main>
-    
-    <footer class="text-center p-4 mt-4">
-        <p class="text-sm text-slate-500">Developed by Hozaifa</p>
-    </footer>
 
-    <script>
-        function copyToClipboard(elementId) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert(`'${textToCopy}' copied to clipboard!`);
-            }).catch(err => {
-                console.error("Could not copy text: ", err);
-                alert("Failed to copy text.");
-            });
-        }
-    </script>
+            <!-- এখানে failed_results তালিকা থেকে প্রতিটি ভুল দেখানো হচ্ছে -->
+            {% if failed_results %}
+            <div class="mt-8">
+                 <h3 class="text-xl font-bold text-red-600 text-center mb-4">Failed Links</h3>
+                 <ul class="space-y-2 text-sm text-left bg-red-50 p-4 rounded-lg">
+                    {% for error in failed_results %}
+                    <li><strong class="font-mono text-slate-700">{{ error.link }}</strong> - <span class="text-red-700">{{ error.reason }}</span></li>
+                    {% endfor %}
+                 </ul>
+            </div>
+            {% endif %}
+            
+            <a href="/" class="block w-full text-center mt-10 bg-slate-700 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-all transform hover:scale-105">Analyze More Links</a>
+        </section>
+        <footer class="text-center p-4 mt-4">
+            <p class="text-sm text-slate-500">Developed by Hozaifa</p>
+        </footer>
+    </main>
 </body>
 </html>
